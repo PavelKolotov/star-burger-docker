@@ -1,0 +1,11 @@
+FROM node:17.6.0
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm ci --dev
+
+RUN npm install -g parcel@2.4.0
+
+COPY . .

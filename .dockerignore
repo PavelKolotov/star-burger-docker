@@ -1,0 +1,4 @@
+.env
+venv
+star_burger_data_dump.sql
+backend/media

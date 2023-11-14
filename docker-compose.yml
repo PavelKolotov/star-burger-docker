@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Pasha46496
+      POSTGRES_DB: star_burger
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.node
+    depends_on:
+      - postgres
+    command: ./node_modules/.bin/parcel watch bundles-src/index.js --dist-dir bundles --public-url="./"
+    volumes:
+      - bundles:/app/bundles
+
+  django:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.django
+    depends_on:
+      - postgres
+      - frontend
+    env_file:
+      - .env
+    command: sh -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8080:8000"
+    volumes:
+      - static:/app/staticfiles
+      - media:/app/media
+
+volumes:
+  static:
+  media:
+  pg_data:
+  bundles:

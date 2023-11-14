@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Pasha46496
+      POSTGRES_DB: star_burger
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.node
+    depends_on:
+      - postgres
+    command: ./node_modules/.bin/parcel build bundles-src/index.js --dist-dir bundles --public-url="./"
+    volumes:
+      - bundles:/app/bundles
+
+  django:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.django
+    depends_on:
+      - postgres
+      - frontend
+    env_file:
+      - .env
+    command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn -w 3 star_burger.wsgi:application --bind 127.0.0.1:8080"
+    ports:
+      - "8000:8000"
+    volumes:
+      - static:/app/staticfiles
+      - media:/app/media
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    depends_on:
+      - django
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf.local:/etc/nginx/conf.d/default.conf
+      - static:/app/staticfiles
+      - media:/app/media
+
+volumes:
+  static:
+  media:
+  pg_data:
+  bundles:
