@@ -30,7 +30,7 @@ services:
       - postgres
       - frontend
     env_file:
-      - .env
+      - ../.env
     command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn -w 3 star_burger.wsgi:application --bind 127.0.0.1:8080"
     ports:
       - "8000:8000"
