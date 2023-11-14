@@ -54,6 +54,15 @@ services:
       - static:/app/staticfiles
       - media:/app/media
 
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    volumes:
+      - web-data:/var/www/html
+      - letsencrypt:/etc/letsencrypt
+    command: certonly --webroot --webroot-path=/var/www/html --email pavelkolotov84@gmail.com --agree-tos --no-eff-email -d star-burger-docker.universal-web.online
+
 volumes:
   static:
   media:
