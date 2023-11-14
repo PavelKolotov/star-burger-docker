@@ -46,7 +46,7 @@ services:
       - django
     ports:
       - "80:80"
-      - "443:443"
+      - "4443:443"
     volumes:
       - web-data:/var/www/html
       - ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf
