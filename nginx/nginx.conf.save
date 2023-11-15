@@ -1,6 +1,7 @@
 server {
     listen 80 default;
     server_name star-burger-docker.universal-web.online;
+
     location / {
         proxy_pass http://django:8081/;
     }
