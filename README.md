@@ -36,7 +36,7 @@ cd star-burger-docker
 - `ROLLBAR_ENVIRONMENT` — настройка environment в Rollbar задаёт название окружения или инсталляции сайта.
 - `DB_URL` - параметры подключения к БД в формате URL (postgres://<пользователь>:<пароль>@<хост>:<порт>/<имя_базы_данных>)
 
-В docker-compose.yml :
+В docker-compose.yml укажите свои параметры подключения к БД:
 
 ````
     environment:
@@ -90,7 +90,14 @@ cd star-burger-docker/production
 
 В файле production/docker-compose.yml замените:
 nginx volumes: `- ../nginx/nginx.certbot.conf:/etc/nginx/conf.d/default.conf` на `- ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf`
-и ports: `- "8082:80"` на `- "80:80"`
+и ports: `- "8082:80"` на `- "80:80"` и укажите свои параметры подключения к БД:
+
+```
+environment:
+      POSTGRES_USER: <пользователь>
+      POSTGRES_PASSWORD: <пароль>
+      POSTGRES_DB: <имя_базы_данных>
+```      
 
 Запустите сборку (если порт 80 занят, освободите его на время создания сертификатов SSL):
 ```sh
