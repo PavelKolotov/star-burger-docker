@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'phonenumber_field',
+    'corsheaders',
     'rest_framework',
 ]
 
@@ -42,7 +43,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://star-burger-docker.universal-web.online",
+]
+
+CSRF_TRUSTED_ORIGINS = ['https://star-burger-docker.universal-web.online']
 
 ROOT_URLCONF = 'star_burger.urls'
 
