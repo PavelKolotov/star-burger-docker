@@ -29,26 +29,22 @@ cd star-burger-docker
 
 Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
 
-- `DEBUG` — дебаг-режим. Поставьте `True`.
-- `SECRET_KEY` — секретный ключ проекта. Он отвечает за шифрование на сайте. Например, им зашифрованы все пароли на вашем сайте.
-- `ALLOWED_HOSTS` — [см. документацию Django](https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts)
 - `ROLLBAR_ACCESS_TOKEN` — ваш ключ от [Rollbar](https://rollbar.com/)
 - `ROLLBAR_ENVIRONMENT` — настройка environment в Rollbar задаёт название окружения или инсталляции сайта.
-- `DB_URL` - параметры подключения к БД в формате URL (postgres://<пользователь>:<пароль>@<хост>:<порт>/<имя_базы_данных>)
+- `YANDEX_GEOCODER_API_KEY`- в [кабинете разработчика](https://developer.tech.yandex.ru/) в API JavaScript API и HTTP Геокодер получите ключ.
 
-В docker-compose.yml укажите свои параметры подключения к БД:
-
-````
-    environment:
-      POSTGRES_USER: <пользователь>
-      POSTGRES_PASSWORD: <пароль>
-      POSTGRES_DB: <имя_базы_данных>
-````
-
-Запуск :
+Для сборки и запуска контейнеров используйте команду:
 ```sh
 docker-compose up --build
 ```
+Эта команда сначала соберет образы из Dockerfile и затем запустит контейнеры.
+
+Если вы уже собрали образы и хотите просто запустить контейнеры, используйте:
+```sh
+docker-compose up
+```
+Это запустит все сервисы, определенные в файле docker-compose.yml
+
 
 После запуска контейнера сайт будет досупен по адресу [http://localhost:8080](http://localhost:8080)
 
@@ -73,15 +69,8 @@ cd star-burger-docker
 - `ROLLBAR_ACCESS_TOKEN` — ваш ключ от [Rollbar](https://rollbar.com/)
 - `ROLLBAR_ENVIRONMENT` — настройка environment в Rollbar задаёт название окружения или инсталляции сайта.
 - `DB_URL` - параметры подключения к БД в формате URL (postgres://<пользователь>:<пароль>@<хост>:<порт>/<имя_базы_данных>)
+- `YANDEX_GEOCODER_API_KEY`- в [кабинете разработчика](https://developer.tech.yandex.ru/) в API JavaScript API и HTTP Геокодер получите ключ.
 
-Перейдите в каталог проекта:
-```sh
-cd star-burger-docker/nginx
-```
-
-В файле Dockerfile.nginx замените:
-
-`COPY nginx.certbot.conf /etc/nginx/conf.d/default.conf` на `COPY nginx.conf /etc/nginx/conf.d/default.conf`
 
 Перейдите в каталог проекта:
 ```sh
@@ -90,14 +79,7 @@ cd star-burger-docker/production
 
 В файле production/docker-compose.yml замените:
 nginx volumes: `- ../nginx/nginx.certbot.conf:/etc/nginx/conf.d/default.conf` на `- ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf`
-и ports: `- "8082:80"` на `- "80:80"` и укажите свои параметры подключения к БД:
-
-```
-environment:
-      POSTGRES_USER: <пользователь>
-      POSTGRES_PASSWORD: <пароль>
-      POSTGRES_DB: <имя_базы_данных>
-```      
+и ports: `- "8082:80"` на `- "80:80"`    
 
 Запустите сборку (если порт 80 занят, освободите его на время создания сертификатов SSL):
 ```sh
@@ -110,7 +92,7 @@ docker-compose up --build
 docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot -d <ВАШ АДРЕС САЙТА> --agree-tos --email <ВАШ EMAIL>
 ```
 
-После успешного создания сертификатов верните изменения в файлах `Dockerfile.nginx` и `production/docker-compose.yml` и перезапустите сборку:
+После успешного создания сертификатов верните изменения в файле `production/docker-compose.yml` и перезапустите сборку:
 
 ```sh
 docker-compose down

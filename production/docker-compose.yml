@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin46496
+      POSTGRES_PASSWORD: admin
       POSTGRES_DB: star_burger
     ports:
       - "5433:5432"
@@ -39,9 +39,7 @@ services:
       - media:/app/media
 
   nginx:
-    build:
-      context: ../nginx
-      dockerfile: Dockerfile.nginx
+    image: nginx:latest
     depends_on:
       - django
     ports:
@@ -53,6 +51,7 @@ services:
       - media:/app/media
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
+    command: ["nginx", "-g", "daemon off;"]
   certbot:
     image: certbot/certbot
     volumes:
