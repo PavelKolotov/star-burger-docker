@@ -52,6 +52,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
     command: ["nginx", "-g", "daemon off;"]
+
   certbot:
     image: certbot/certbot
     volumes:

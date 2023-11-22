@@ -79,7 +79,7 @@ cd star-burger-docker/production
 
 В файле production/docker-compose.yml замените:
 nginx volumes: `- ../nginx/nginx.certbot.conf:/etc/nginx/conf.d/default.conf` на `- ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf`
-и ports: `- "8082:80"` на `- "80:80"`    
+и ports: `- "8082:80"` на `- "80:80"`
 
 Запустите сборку (если порт 80 занят, освободите его на время создания сертификатов SSL):
 ```sh

@@ -40,6 +40,7 @@ services:
     ports:
       - "8080:8000"
     volumes:
+      - ./backend:/app
       - static:/app/staticfiles
       - media:/app/media
 
