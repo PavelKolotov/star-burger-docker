@@ -43,8 +43,6 @@ curl -H "X-Rollbar-Access-Token: $ROLLBAR_ACCESS_TOKEN" \
   "status": "succeeded"
 }'
 
-deactivate
-
 if [ $? -eq 0 ]; then
    echo "Деплой успешно завершен."
 else
