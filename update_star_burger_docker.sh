@@ -19,11 +19,11 @@ echo "Обновление репозитория"
 git pull
 
 echo "Пересборка Docker образов"
-docker-compose -f /production/docker-compose.yml build
+docker-compose -f $PROJECT_DIR/production/docker-compose.yml build
 
 echo "Перезапуск контейнеров"
-docker-compose -f /production/docker-compose.yml down
-docker-compose -f /production/docker-compose.yml up -d
+docker-compose -f $PROJECT_DIR/production/docker-compose.yml down
+docker-compose -f $PROJECT_DIR/production/docker-compose.yml up -d
 
 echo "Очистка неиспользуемых Docker образов и ресурсов"
 docker system prune -af
