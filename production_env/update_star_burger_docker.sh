@@ -6,7 +6,7 @@ PROJECT_DIR=/opt/star-burger-docker
 
 cd $PROJECT_DIR
 
-ENV_FILE="$PROJECT_DIR/.env"
+ENV_FILE="$PROJECT_DIR/production_env/.env"
 
 if [ -f "$ENV_FILE" ]; then
     source "$ENV_FILE"
@@ -19,14 +19,16 @@ echo "Обновление репозитория"
 git pull
 
 echo "Пересборка Docker образов"
-docker-compose -f $PROJECT_DIR/production/docker-compose.yml build
+docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml build
 
 echo "Перезапуск контейнеров"
-docker-compose -f $PROJECT_DIR/production/docker-compose.yml down
-docker-compose -f $PROJECT_DIR/production/docker-compose.yml up -d
+docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml down
+docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml up -d
 
 echo "Очистка неиспользуемых Docker образов и ресурсов"
 docker system prune -af
+
+systemctl reload nginx.service
 
 commit=`git rev-parse HEAD`
 
@@ -35,7 +37,7 @@ curl -H "X-Rollbar-Access-Token: $ROLLBAR_ACCESS_TOKEN" \
      -H "content-type: application/json" \
      -X POST "https://api.rollbar.com/api/1/deploy" \
      -d '{
-  "environment": "production",
+  "environment": "production_env",
   "revision": "'$commit'",
   "rollbar_username": "admin",
   "local_username": "admin",

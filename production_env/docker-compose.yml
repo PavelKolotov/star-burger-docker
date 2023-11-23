@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER?}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?}
+      POSTGRES_DB: ${POSTGRES_DB?}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.node.production
+    depends_on:
+      - postgres
+    volumes:
+      - bundles:/app/bundles
+
+  django:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.django.production
+    depends_on:
+      - postgres
+      - frontend
+    ports:
+      - "8081:8081"
+    volumes:
+      - static:/app/staticfiles
+      - media:/app/media
+
+
+volumes:
+  static:
+  media:
+  pg_data:
+  bundles:

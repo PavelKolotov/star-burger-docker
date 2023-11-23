@@ -2,8 +2,7 @@ FROM node:17.6.0
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY . .
 
 RUN npm ci --dev
 
-COPY . .

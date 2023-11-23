@@ -22,7 +22,7 @@
 git clone https://github.com/PavelKolotov/star-burger-docker.git
 ```
 
-Перейдите в каталог проекта:
+Перейдите в корень каталога сайта:
 ```sh
 cd star-burger-docker
 ```
@@ -35,16 +35,9 @@ cd star-burger-docker
 
 Для сборки и запуска контейнеров используйте команду:
 ```sh
-docker-compose up --build
-```
-Эта команда сначала соберет образы из Dockerfile и затем запустит контейнеры.
-
-Если вы уже собрали образы и хотите просто запустить контейнеры, используйте:
-```sh
 docker-compose up
 ```
-Это запустит все сервисы, определенные в файле docker-compose.yml
-
+Эта команда сначала соберет образы из Dockerfile и затем запустит контейнеры.
 
 После запуска контейнера сайт будет досупен по адресу [http://localhost:8080](http://localhost:8080)
 
@@ -56,9 +49,9 @@ docker-compose up
 ```sh
 git clone https://github.com/PavelKolotov/star-burger-docker.git
 ```
-Перейдите в каталог проекта:
+Перейдите в каталог c конфигурацией для production:
 ```sh
-cd star-burger-docker
+cd star-burger-docker/production_env
 ```
 
 Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
@@ -70,42 +63,23 @@ cd star-burger-docker
 - `ROLLBAR_ENVIRONMENT` — настройка environment в Rollbar задаёт название окружения или инсталляции сайта.
 - `DB_URL` - параметры подключения к БД в формате URL (postgres://<пользователь>:<пароль>@<хост>:<порт>/<имя_базы_данных>)
 - `YANDEX_GEOCODER_API_KEY`- в [кабинете разработчика](https://developer.tech.yandex.ru/) в API JavaScript API и HTTP Геокодер получите ключ.
+- `POSTGRES_USER` - параметр подключения к БД <пользователь>
+- `POSTGRES_PASSWORD`- параметр подключения к БД <пароль>
+- `POSTGRES_DB`- параметр подключения к БД <имя_базы_данных>
 
 
-Перейдите в каталог проекта:
+Для сборки и запуска контейнеров используйте команду:
 ```sh
-cd star-burger-docker/production
+docker-compose up
 ```
 
-В файле production/docker-compose.yml замените:
-nginx volumes: `- ../nginx/nginx.certbot.conf:/etc/nginx/conf.d/default.conf` на `- ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf`
-и ports: `- "8082:80"` на `- "80:80"`
-
-Запустите сборку (если порт 80 занят, освободите его на время создания сертификатов SSL):
-```sh
-docker-compose up --build
-```
-
-Создайте SSL сертификаты запустив команду:
-
-```sh
-docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot -d <ВАШ АДРЕС САЙТА> --agree-tos --email <ВАШ EMAIL>
-```
-
-После успешного создания сертификатов верните изменения в файле `production/docker-compose.yml` и перезапустите сборку:
-
-```sh
-docker-compose down
-docker-compose up --build
-```
+Далее необходимо установить и настроить на сервере nginx (пример конфига можно посмотреть в какталоге nginx), а так же получить SSL сертификаты (для данного сайта использовался Certbot)
 
 После запуска контейнера сайт будет досупен по вашему адресу.
 
 ## Обновление кода на сервере
 
-В файле update_star_burger_docker.sh замените `PROJECT_DIR=<ВАШ ПУТЬ К ПРОЕКТУ>`
-
-Для обновления запустите из каталога с проектом bash скрипт:
+Для обновления запустите из каталога c конфигурацией для production:
 
 ```sh
 ./update_star_burger_docker.sh
