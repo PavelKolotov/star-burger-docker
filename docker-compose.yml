@@ -32,7 +32,7 @@ services:
     environment:
       SECRET_KEY: ${SECRET_KEY-django-insecure-0if40nf4nf93n4}
       DEBUG: ${DEBUG-TRUE}
-      DB_URL: ${WEB_DATABASE_URL-postgres://admin:Pasha46496@postgres/star_burger}
+      DB_URL: ${DB_URL-postgres://admin:Pasha46496@postgres/star_burger}
       ALLOWED_HOSTS: ${ALLOWED_HOSTS-127.0.0.1,localhost,0.0.0.0}
       YANDEX_GEOCODER_API_KEY: ${YANDEX_GEOCODER_API_KEY?}
       ROLLBAR_ACCESS_TOKEN: ${ROLLBAR_ACCESS_TOKEN?}
