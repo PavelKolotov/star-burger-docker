@@ -47,7 +47,7 @@ services:
       - ./backend:/app
       - static:/app/staticfiles
       - media:/app/media
-
+      - bundles:/app/bundles
 volumes:
   static:
   media:

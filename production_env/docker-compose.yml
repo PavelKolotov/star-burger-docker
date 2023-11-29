@@ -46,10 +46,8 @@ services:
 #     том ниже временно отключен (включить после копирования статики на хост)
       - /www/starburger/staticfiles:/app/staticfiles
       - /www/starburger/media:/app/media
-
+      - bundles:/app/bundles
 
 volumes:
-  static:
-  media:
   pg_data:
   bundles:
