@@ -73,6 +73,18 @@ cd star-burger-docker/production_env
 docker-compose up
 ```
 
+После запуска контейнера используйте `docker cp` для копирования статических файлов из контейнера на хост:
+```sh
+docker cp <container_id>:/app/staticfiles /www/starburger/static
+```
+
+Теперь вы можете использовать скопированные файлы на хосте и монтировать их обратно в контейнер. Для этого необходимо раскомментировать `#      - /www/starburger/static:/app/staticfiles` в файле `production_env/docker-compose.yml`
+и перезапустить docker-compose:
+
+```sh
+docker-compose restart
+```
+
 Далее необходимо установить и настроить на сервере nginx (пример конфига можно посмотреть в каталоге nginx), а так же получить SSL сертификаты (для данного сайта использовался Certbot)
 
 После запуска контейнера сайт будет доступен по вашему адресу.

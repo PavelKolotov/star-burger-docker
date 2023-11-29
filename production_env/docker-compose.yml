@@ -43,7 +43,8 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - /www/starburger/static:/app/staticfiles
+#     том ниже временно отключен (включить после копирования статики на хост)
+#      - /www/starburger/static:/app/staticfiles
       - /www/starburger/media:/app/media
 
 
