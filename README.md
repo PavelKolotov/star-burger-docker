@@ -75,10 +75,10 @@ docker-compose up
 
 После запуска контейнера используйте `docker cp` для копирования статических файлов из контейнера на хост:
 ```sh
-docker cp <container_id>:/app/staticfiles /www/starburger/static
+docker cp <container_id>:/app/staticfiles /www/starburger/
 ```
 
-Теперь вы можете использовать скопированные файлы на хосте и монтировать их обратно в контейнер. Для этого необходимо раскомментировать `#      - /www/starburger/static:/app/staticfiles` в файле `production_env/docker-compose.yml`
+Теперь вы можете использовать скопированные файлы на хосте и монтировать их обратно в контейнер. Для этого необходимо раскомментировать `#      - /www/starburger/staticfiles:/app/staticfiles` в файле `production_env/docker-compose.yml`
 и перезапустить docker-compose:
 
 ```sh

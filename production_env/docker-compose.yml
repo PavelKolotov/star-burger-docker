@@ -44,7 +44,7 @@ services:
       - "8081:8081"
     volumes:
 #     том ниже временно отключен (включить после копирования статики на хост)
-#      - /www/starburger/static:/app/staticfiles
+      - /www/starburger/staticfiles:/app/staticfiles
       - /www/starburger/media:/app/media
 
 
