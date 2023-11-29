@@ -18,7 +18,6 @@ services:
       dockerfile: Dockerfile.node
     depends_on:
       - postgres
-    command: ./node_modules/.bin/parcel watch bundles-src/index.js --dist-dir bundles --public-url="./"
     volumes:
       - bundles:/app/bundles
 
@@ -26,6 +25,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.django
+      args:
+        SECRET_KEY: ${SECRET_KEY-django-insecure-0if40nf4nf93n4}
+        DB_URL: ${DB_URL-postgres://admin:Pasha46496@postgres/star_burger}
+
     depends_on:
       - postgres
       - frontend

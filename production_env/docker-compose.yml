@@ -15,7 +15,7 @@ services:
   frontend:
     build:
       context: ../frontend
-      dockerfile: Dockerfile.node.production
+      dockerfile: Dockerfile.node
     depends_on:
       - postgres
     volumes:
@@ -24,7 +24,10 @@ services:
   django:
     build:
       context: ../backend
-      dockerfile: Dockerfile.django.production
+      dockerfile: Dockerfile.django
+      args:
+        SECRET_KEY: ${SECRET_KEY?}
+        DB_URL: ${DB_URL?}
     depends_on:
       - postgres
       - frontend
@@ -36,7 +39,7 @@ services:
       YANDEX_GEOCODER_API_KEY: ${YANDEX_GEOCODER_API_KEY?}
       ROLLBAR_ACCESS_TOKEN: ${ROLLBAR_ACCESS_TOKEN?}
       ROLLBAR_ENVIRONMENT: ${ROLLBAR_ENVIRONMENT?}
-    command: /app/prepare-and-start.sh
+    command: sh -c "python manage.py migrate --noinput && gunicorn -w 3 star_burger.wsgi:application --bind 0.0.0.0:8081"
     ports:
       - "8081:8081"
     volumes:
