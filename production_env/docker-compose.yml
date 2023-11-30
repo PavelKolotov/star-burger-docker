@@ -12,14 +12,14 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
-  frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile.node
-    depends_on:
-      - postgres
-    volumes:
-      - bundles:/app/bundles
+#  frontend:
+#    build:
+#      context: ../frontend
+#      dockerfile: Dockerfile.node
+#    depends_on:
+#      - postgres
+#    volumes:
+#      - bundles:/app/bundles
 
   django:
     build:
@@ -30,7 +30,7 @@ services:
         DB_URL: ${DB_URL?}
     depends_on:
       - postgres
-      - frontend
+#      - frontend
     environment:
       SECRET_KEY: ${SECRET_KEY?}
       DEBUG: ${DEBUG?}
@@ -46,8 +46,8 @@ services:
 #     том ниже временно отключен (включить после копирования статики на хост)
       - /www/starburger/staticfiles:/app/staticfiles
       - /www/starburger/media:/app/media
-      - bundles:/app/bundles
+#      - bundles:/app/bundles
 
 volumes:
   pg_data:
-  bundles:
+#  bundles:
