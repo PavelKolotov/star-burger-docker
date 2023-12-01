@@ -29,8 +29,8 @@ echo "Очистка неиспользуемых Docker образов и ре�
 docker system prune -af
 
 
-docker cp production_env_django_1:/app/staticfiles /www/starburger/
-docker cp production_env_frontend_1:/app/bundles /www/starburger/staticfiles
+docker cp production_env_django_1:/app/staticfiles /var/www/starburger/
+docker cp production_env_frontend_1:/app/bundles /var/www/starburger/staticfiles
 
 systemctl reload nginx
 

@@ -41,8 +41,8 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - /www/starburger/staticfiles:/app/static
-      - /www/starburger/media:/app/media
+      - /var/www/starburger/staticfiles:/app/static
+      - /var/www/starburger/media:/app/media
 
 volumes:
   pg_data:
