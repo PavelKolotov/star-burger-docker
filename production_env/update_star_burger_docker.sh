@@ -28,7 +28,12 @@ docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml up -d
 echo "Очистка неиспользуемых Docker образов и ресурсов"
 docker system prune -af
 
-systemctl reload nginx.service
+
+docker cp production_env_django_1:/app/staticfiles /www/starburger/
+docker cp production_env_frontend_1:/app/bundles /www/starburger/staticfiles
+
+systemctl reload nginx
+
 
 commit=`git rev-parse HEAD`
 
