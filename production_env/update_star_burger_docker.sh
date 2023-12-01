@@ -25,12 +25,8 @@ echo "Перезапуск контейнеров"
 docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml down
 docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml up -d
 
-echo "Очистка неиспользуемых Docker образов и ресурсов"
-docker system prune -af
-
-
 docker cp production_env_django_1:/app/staticfiles /var/www/starburger/
-docker cp production_env_frontend_1:/app/bundles /var/www/starburger/staticfiles
+docker cp production_env_frontend_1:/app/bundles/. /var/www/starburger/staticfiles
 
 systemctl reload nginx
 
