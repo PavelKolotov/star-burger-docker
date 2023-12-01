@@ -1,0 +1,12 @@
+[Unit]
+Description=star burger docker
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/star-burger-docker/production_env
+ExecStart=/usr/local/bin/docker-compose up
+ExecStop=/usr/local/bin/docker-compose down
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

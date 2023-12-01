@@ -2,11 +2,9 @@
 
 set -e
 
-PROJECT_DIR=/opt/star-burger-docker
+PROJECT_DIR=$(pwd)
 
-cd $PROJECT_DIR
-
-ENV_FILE="$PROJECT_DIR/production_env/.env"
+ENV_FILE="$PROJECT_DIR/.env"
 
 if [ -f "$ENV_FILE" ]; then
     source "$ENV_FILE"
@@ -19,17 +17,16 @@ echo "Обновление репозитория"
 git pull
 
 echo "Пересборка Docker образов"
-docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml build
+docker-compose -f $PROJECT_DIR/docker-compose.yml build
 
 echo "Перезапуск контейнеров"
-docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml down
-docker-compose -f $PROJECT_DIR/production_env/docker-compose.yml up -d
+docker-compose -f $PROJECT_DIR/docker-compose.yml down
+docker-compose -f $PROJECT_DIR/docker-compose.yml up -d
 
 docker cp production_env_django_1:/app/staticfiles /var/www/starburger/
 docker cp production_env_frontend_1:/app/bundles/. /var/www/starburger/staticfiles
 
 systemctl reload nginx
-
 
 commit=`git rev-parse HEAD`
 
